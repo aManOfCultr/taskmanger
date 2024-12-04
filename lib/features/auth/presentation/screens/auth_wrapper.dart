@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taskmanager/features/auth/presentation/screens/auth_screen.dart';
-import 'package:taskmanager/features/task/presentation/screens/task_list_screen.dart';
+import 'package:taskmanager/features/task/view/screens/task_list_screen.dart';
 
 final authStateProvider = StreamProvider<User?>((ref) {
   return FirebaseAuth.instance.authStateChanges();
