@@ -36,6 +36,7 @@ in terminal in the root directory
 
 ## File Structure of app
 
+```
 lib/
 ├── main.dart           // App entry point
 ├── core/               // Shared utilities, constants, and themes
@@ -75,4 +76,4 @@ lib/
 │   │   ├── api_client.dart
 │   │   ├── local_storage.dart
 ├── test/               // Unit and widget tests
-
+```
