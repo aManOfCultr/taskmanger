@@ -5,7 +5,7 @@ class Task {
     //required this.alarm,
     required this.description,
     required this.dueDate,
-    //required this.priority,
+    required this.priority,
     required this.status,
     required this.title,
     String? taskId,
@@ -17,7 +17,5 @@ class Task {
   final String dueDate;
   //final String? alarm;
   final Status status;
-
-  get priority => null;
-  //final Priority priority;
+  final Priority priority;
 }

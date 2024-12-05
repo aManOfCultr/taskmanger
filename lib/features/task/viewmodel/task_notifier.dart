@@ -32,7 +32,7 @@ class TaskNotifier extends StateNotifier<List<Task>> {
               taskId: row['taskId'].toString(),
               description: row['description'].toString(),
               dueDate: row['dueDate'].toString(),
-              
+              priority: Priority.values.byName(row['priority'].toString()),
               status: Status.values.byName(row['status'].toString()),
               title: row['title'].toString()),
         )

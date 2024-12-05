@@ -4,23 +4,26 @@ import 'package:intl/intl.dart';
 import 'package:taskmanager/features/task/model/task.dart'; // For formatting date
 
 class TaskCard extends StatelessWidget {
-  final Task task;
+  TaskCard({super.key, required this.task});
 
-  TaskCard({required this.task});
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
-    
     final priorityColor = _getPriorityColor(task.priority);
     final statusColor = _getStatusColor(task.status);
 
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(
+            color: Colors.black,
+            width: 1,
+          )),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,29 +34,43 @@ class TaskCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     task.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Icon(Icons.more_vert, color: Colors.grey),
+                _buildTag(task.priority.name, priorityColor),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.more_vert),
+                    color: Colors.grey.shade700),
               ],
             ),
             const SizedBox(height: 8),
 
             // Priority and status tags
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildTag(task.priority.name, priorityColor),
-                const SizedBox(width: 8),
-                _buildTag(task.status.name, statusColor),
+                Expanded(
+                  child: Text(
+                    task.description!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Column(
+                  children: [
+                    _buildTag(task.status.name, statusColor),
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 12),
 
-            // Due date, links, comments, and assignees
+            
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -61,23 +78,25 @@ class TaskCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(Icons.calendar_today_outlined,
-                        size: 16, color: Colors.grey),
+                        size: 16, color: Colors.grey.shade700),
                     const SizedBox(width: 4),
                     Text(
                       DateFormat('dd MMM yyyy')
                           .format(DateTime.parse(task.dueDate)),
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: Colors.grey.shade600),
                     ),
                   ],
                 ),
 
-                // Links, comments, and assignees
+                
                 Row(
                   children: [
-                    _buildIconText(Icons.link, '5'),
+                    Icon(Icons.alarm_on, size: 18, color: Colors.grey.shade700),
                     const SizedBox(width: 16),
-                    _buildIconText(Icons.comment, '5'),
-                    const SizedBox(width: 16),
+                    Text(
+                      'time',
+                      style: TextStyle(color: Colors.grey.shade600),
+                    )
                   ],
                 ),
               ],
@@ -91,7 +110,7 @@ class TaskCard extends StatelessWidget {
   // Helper to build priority/status tags
   Widget _buildTag(String label, Color color) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(8),
@@ -107,47 +126,13 @@ class TaskCard extends StatelessWidget {
     );
   }
 
-  // Helper to build icon and text (links, comments, etc.)
-  Widget _buildIconText(IconData icon, String text) {
-    return Row(
-      children: [
-        Icon(icon, size: 16, color: Colors.grey),
-        const SizedBox(width: 4),
-        Text(
-          text,
-          style: TextStyle(color: Colors.grey),
-        ),
-      ],
-    );
-  }
-
-  // Helper to build assignees (sample avatars)
-
   // Helper to get color based on priority
   Color _getPriorityColor(Priority priority) {
-    switch (priority) {
-      case Priority.low:
-        return priorityColor[Priority.low]!;
-      case Priority.medium:
-        return priorityColor[Priority.medium]!;
-      case Priority.high:
-        return priorityColor[Priority.high]!;
-      default:
-        return Colors.grey;
-    }
+    return priorityColor[priority]!;
   }
 
   // Helper to get color based on status
   Color _getStatusColor(Status status) {
-    switch (status) {
-      case Status.incomplete:
-        return statusColor[Status.incomplete]!;
-      case Status.pending:
-        return statusColor[Status.pending]!;
-      case Status.completed:
-        return statusColor[Status.completed]!;
-      default:
-        return Colors.grey;
-    }
+    return statusColor[status]!;
   }
 }

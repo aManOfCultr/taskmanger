@@ -5,8 +5,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:taskmanager/features/auth/presentation/screens/auth_screen.dart';
 import 'package:taskmanager/features/auth/presentation/screens/auth_wrapper.dart';
 import 'package:taskmanager/features/auth/presentation/screens/splash_screen.dart';
+import 'package:taskmanager/features/task/view/screens/task_list_screen.dart';
 import 'package:taskmanager/firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:taskmanager/shared/widgets/task_card.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: "key.env");
@@ -28,12 +30,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Task Manager',
-        themeMode: ThemeMode.system,
+        themeMode: ThemeMode.light,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
+          //colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
           useMaterial3: true,
         ),
-        home: AuthWrapper() //StreamBuilder(
+        home: const TaskListScreen() //StreamBuilder(
         //   stream: FirebaseAuth.instance.authStateChanges(),
         //   builder: (context, snapshot) {
         //     if (snapshot.connectionState == ConnectionState.waiting) {

@@ -38,6 +38,7 @@ class _AddTaskScreenState extends ConsumerState<AddTaskScreen> {
     }
 
     Task task = new Task(
+      priority: Priority.high,
         description: description,
         dueDate: _selectedDate!.toIso8601String(),
         status: Status.pending,
