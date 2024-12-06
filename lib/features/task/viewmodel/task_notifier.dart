@@ -7,13 +7,21 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:taskmanager/core/constants.dart';
 import 'package:taskmanager/features/task/model/task.dart';
 
+String createTable = '''CREATE TABLE tasks(
+                          taskId TEXT PRIMARY KEY, 
+                          title TEXT NOT NULL, 
+                          description TEXT, 
+                          dueDate TEXT NOT NULL,
+                          status TEXT NOT NULL,
+                          priority TEXT NOT NULL
+                        )''';
+
 Future<Database> _getDatabase() async {
   final dbPath = await sql.getDatabasesPath();
   final db = await sql.openDatabase(
     path.join(dbPath, 'places.db'),
     onCreate: (db, version) {
-      return db.execute(
-          'CREATE TABLE tasks(taskId TEXT PRIMARY KEY, title TEXT NOT NULL, description TEXT, dueDate TEXT NOT NULL,status TEXT NOT NULL)');
+      return db.execute(createTable);
     },
     version: 1,
   );
@@ -54,8 +62,8 @@ class TaskNotifier extends StateNotifier<List<Task>> {
     db.insert('tasks', {
       'description': newTask.description,
       'dueDate': newTask.dueDate,
-      
       'status': newTask.status,
+      'priority': newTask.priority,
       'title': newTask.title,
       'taskId': newTask.taskId,
     });
@@ -81,6 +89,7 @@ class TaskNotifier extends StateNotifier<List<Task>> {
     await db.update(
       'tasks', // Table name
       {
+        'taskId': updatedTask.taskId,
         'title': updatedTask.title,
         'description': updatedTask.description,
         'dueDate': updatedTask.dueDate,
